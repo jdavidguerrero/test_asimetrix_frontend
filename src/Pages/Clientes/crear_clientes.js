@@ -64,6 +64,7 @@ class FormsValidation extends React.Component {
 
     handleSubmit = (e, formData, inputs) => {
         e.preventDefault();
+        console.log(inputs)
         //alert(JSON.stringify(formData, null, 2));
         this.setState({ showModal: true });
     };
@@ -86,7 +87,7 @@ class FormsValidation extends React.Component {
                                 <Card.Title as="h5">Ingreso  cliente</Card.Title>
                             </Card.Header>
                             <Card.Body>
-                                <Form>
+                                <Form onSubmit={this.handleSubmit}>
                                 <Form.Row>
                                         <Form.Group as={Col} md="6">
                                         <Form.Label>Nombre</Form.Label>
@@ -117,7 +118,7 @@ class FormsValidation extends React.Component {
                                 <Card.Title as="h5">Usuario Admin</Card.Title>
                             </Card.Header>
                             <Card.Body>
-                                <Form>
+                                <Form  onSubmit={this.handleSubmit}>
                                 <Form.Row>
                                         <Form.Group as={Col} md="6">
                                         <Form.Label>Email</Form.Label>
@@ -130,7 +131,7 @@ class FormsValidation extends React.Component {
                                         
                                 </Form.Row>
                                 </Form>
-                                <Button variant="primary">
+                                <Button variant="primary" type="submit">
                                                 Submit
                                             </Button>
                             </Card.Body>

@@ -1,5 +1,5 @@
 import React, { Component, Suspense } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import Loadable from 'react-loadable';
 
 import '../../node_modules/font-awesome/scss/font-awesome.scss';
@@ -14,10 +14,15 @@ const AdminLayout = Loadable({
     loading: Loader
 });
 
+
+
 class App extends Component {
     render() {
+        console.log(JSON.stringify(routes))
         const menu = routes.map((route, index) => {
+           
           return (route.component) ? (
+              
               <Route
                   key={index}
                   path={route.path}
@@ -34,8 +39,16 @@ class App extends Component {
                 <ScrollToTop>
                     <Suspense fallback={<Loader/>}>
                         <Switch>
-                            {menu}
-                            <Route path="/" component={AdminLayout} />
+                             {menu}
+                        <Route path= "/" component= {AdminLayout} />
+                       
+                       
+                           {
+                             //  {menu}
+                            //<Route path="/" component={AdminLayout} />
+                           }
+                            
+                           
                         </Switch>
                     </Suspense>
                 </ScrollToTop>

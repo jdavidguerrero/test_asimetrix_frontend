@@ -6,16 +6,28 @@ export default {
             type: 'group',
             icon: 'icon-pages',
             children: [
-                {
-                    id: 'dashboard',
-                    title: 'Dashboard',
-                    type: 'item',
-                    url: '/dashboard',
-                    classes: 'nav-item',
-                    icon: 'feather icon-sidebar'
-                },
                 
-               
+
+                {
+                    id: 'cliente',
+                    title: 'Clientes',
+                    type: 'collapse',
+                    icon: 'feather icon-tablet',
+                    children: [
+                        {
+                            id: 'crear_clientes',
+                            title: 'Ingreso',
+                            type: 'item',
+                            url: '/clientes/ingreso'
+                        },
+                        {
+                            id: 'listar_clientes',
+                            title: 'Listado',
+                            type: 'item',
+                            url: '/clientes/listado'
+                        },
+                    ]
+                },
                 {
                     id: 'logout',
                     title: 'Logout',

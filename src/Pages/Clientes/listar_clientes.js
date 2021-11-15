@@ -2,6 +2,7 @@ import React from 'react';
 import {Row, Col, Card, Table} from 'react-bootstrap';
 
 import Aux from "../../hoc/_Aux";
+import {getClients} from "../../api/clients"
 import $ from 'jquery';
 window.jQuery = $;
 window.$ = $;
@@ -28,7 +29,8 @@ require( 'datatables.net-select' );
 require( 'datatables.net-fixedcolumns' );
 require( 'datatables.net-fixedheader' );
 
-const names = [
+/*
+const names2 = [
     {
         "id": 1,
         "name": "System Architect",
@@ -560,26 +562,24 @@ const names = [
         "date": "2011/01/25",
         "salary":"$112,000"
     }
-];
+];*/
 
-function atable() {
+async function atable () {
    
-   
-
+    const names= await getClients();
 
     let tableResponsive = '#data-table-responsive';
 
     $(tableResponsive).DataTable( {
-        data: names,
+        data: names.response,
         order: [[ 0, "asc" ]],
         columns: [
             { "data": "id", render: function (data, type, row) {return data;}},
             { "data": "name", render: function (data, type, row) {return data;}},
-            { "data": "position", render: function (data, type, row) {return data;}},
-            { "data": "office", render: function (data, type, row) {return data;}},
-            { "data": "age", render: function (data, type, row) {return data;}},
-            { "data": "date", render: function (data, type, row) {return data;}},
-            { "data": "salary", render: function (data, type, row) {return data;}},
+            { "data": "email", render: function (data, type, row) {return data;}},
+            { "data": "role", render: function (data, type, row) {return data;}},
+            { "data": "status", render: function (data, type, row) {return data;}},
+          
         ],
         responsive: {
             responsive: {
@@ -598,6 +598,8 @@ class DataTables extends React.Component {
 
     componentDidMount() {
         atable()
+
+        
     }
 
     render() {
@@ -616,22 +618,19 @@ class DataTables extends React.Component {
                                     <tr>
                                         <th>#</th>
                                         <th>Name</th>
-                                        <th>Position</th>
-                                        <th>Office</th>
-                                        <th>Age</th>
-                                        <th>Date</th>
-                                        <th>Salary</th>
+                                        <th>email</th>
+                                        <th>type</th>
+                                        <th>status</th>
+                                        
                                     </tr>
                                     </thead>
                                     <tfoot>
                                     <tr>
-                                        <th>#</th>
+                                    <th>#</th>
                                         <th>Name</th>
-                                        <th>Position</th>
-                                        <th>Office</th>
-                                        <th>Age</th>
-                                        <th>Date</th>
-                                        <th>Salary</th>
+                                        <th>email</th>
+                                        <th>type</th>
+                                        <th>status</th>
                                     </tr>
                                     </tfoot>
                                 </Table>

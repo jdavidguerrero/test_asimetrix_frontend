@@ -2,18 +2,39 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 
 import config from '../../../../config';
-import navigation from '../../../../menu-items';
+import menu from '../../../../menu-items';
+import menu_admin from '../../../../menu-items-admin';
 import DEMO from "../../../../store/constant";
 import Aux from "../../../../hoc/_Aux";
 
 class Breadcrumb extends Component {
-    state = {
-        main: [],
-        item: []
-    };
+    
+    constructor(props){
+        super(props)
+        this.state = {
+            main: [],
+            item: []
+        };
+        this.navigation = [];
+
+    }
+    
 
     componentDidMount() {
-        (navigation.items).map((item, index) => {
+        
+        let role = localStorage.getItem('role')
+        if(role && role.includes("admin")){
+            console.log(menu_admin)
+        this.navigation = menu_admin
+
+        }
+        else
+        {
+            this.navigation = menu
+            console.log(' no entro')
+        }
+        
+        (this.navigation.items).map((item, index) => {
             
             if (item.type && item.type === 'group') {
                 this.getCollapse(item, index);
@@ -23,7 +44,7 @@ class Breadcrumb extends Component {
     };
 
     componentWillReceiveProps = () => {
-        (navigation.items).map((item, index) => {
+        (this.navigation.items).map((item, index) => {
             if (item.type && item.type === 'group') {
                 this.getCollapse(item);
             }
@@ -51,7 +72,7 @@ class Breadcrumb extends Component {
     render() {
         let main, item;
         let breadcrumb = '';
-        let title = 'Welcome';
+        let title = 'Admin';
         if (this.state.main && this.state.main.type === 'collapse') {
             main = (
                 <li className="breadcrumb-item">
@@ -93,7 +114,7 @@ class Breadcrumb extends Component {
 
         }
 
-        document.title = title + ' | Datta Able Premium React + Redux Admin Template';
+        document.title = title + ' | Asimtrix';
 
         return (
             <Aux>

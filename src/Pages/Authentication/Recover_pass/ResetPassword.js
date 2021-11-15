@@ -4,7 +4,7 @@ import {NavLink} from 'react-router-dom';
 import './../../../assets/scss/style.scss';
 import Aux from "../../../hoc/_Aux";
 import Breadcrumb from "../../../App/layout/AdminLayout/Breadcrumb";
-import logo from '../../../assets/images/cav-logo.jpeg';
+import logo from '../../../assets/images/asimetrix_logo.png';
 
 class ResetPassword3 extends React.Component {
     render () {

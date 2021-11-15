@@ -9,10 +9,12 @@ import NavBar from './NavBar';
 import Breadcrumb from './Breadcrumb';
 import Loader from "../Loader";
 import routes from "../../../routes";
+import routes_admin from "../../../routes-admin";
 import Aux from "../../../hoc/_Aux";
 import * as actionTypes from "../../../store/actions";
 
 import './app.scss';
+import isAuthenticated from '../../../hoc/_Aux/authenticated';
 
 class AdminLayout extends Component {
 
@@ -41,17 +43,36 @@ class AdminLayout extends Component {
         document.addEventListener('webkitfullscreenchange', this.fullScreenExitHandler);
         document.addEventListener('mozfullscreenchange', this.fullScreenExitHandler);
         document.addEventListener('MSFullscreenChange', this.fullScreenExitHandler);
-
-        const menu = routes.map((route, index) => {
+        let route = routes;
+        let role = localStorage.getItem('role')
+        if(role)
+        {
+        if(role.includes("admin")){
+       
+        route = routes_admin
+        }
+        else
+        {
+        
+        route = routes
+        }
+    }
+        
+        const menu = route.map((route, index) => {
+          
             return (route.component) ? (
                 <Route
                     key={index}
                     path={route.path}
                     exact={route.exact}
                     name={route.name}
-                    render={props => (
-                        <route.component {...props} />
-                    )} />
+                    render={props => 
+                        isAuthenticated ?(   
+                        <route.component {...props} />   
+                        ):
+                        (<Redirect to={{pathname:'/login'}}></Redirect>)
+                    
+                    }  />
             ) : (null);
         });
         

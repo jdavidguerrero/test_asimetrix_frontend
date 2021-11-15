@@ -8,7 +8,8 @@ import NavContent from './NavContent';
 import OutsideClick from './OutsideClick';
 import Aux from './../../../../hoc/_Aux'
 import * as actionTypes from './../../../../store/actions';
-import navigation from '../../../../menu-items';
+import menu from '../../../../menu-items';
+import menu_admin from '../../../../menu-items-admin';
 
 import navImage1 from '../../../../assets/images/nav-bg/navbar-img-1.jpg';
 import navImage2 from '../../../../assets/images/nav-bg/navbar-img-2.jpg';
@@ -16,7 +17,26 @@ import navImage3 from '../../../../assets/images/nav-bg/navbar-img-3.jpg';
 import navImage4 from '../../../../assets/images/nav-bg/navbar-img-4.jpg';
 import navImage5 from '../../../../assets/images/nav-bg/navbar-img-5.jpg';
 
+
+let role = localStorage.getItem('role')
+
 class Navigation extends Component {
+    constructor(props)
+    {
+        super(props)
+        this.navigation = [];
+        
+        if(role && role.includes("admin")){
+        this.navigation = menu_admin
+
+        }
+        else
+        {
+        this.navigation = menu
+            
+        }
+    }
+    
 
     resize = () => {
         const contentWidth = document.getElementById('root').clientWidth;
@@ -27,6 +47,7 @@ class Navigation extends Component {
     };
 
     componentDidMount() {
+        
         this.resize();
         window.addEventListener('resize', this.resize)
     }
@@ -111,7 +132,7 @@ class Navigation extends Component {
             document.body.classList.remove('box-layout');
         }
 
-        let backImage, navStyle;
+        let backImage, navStyle;      
         if (this.props.navBackImage) {
             switch (this.props.navBackImage) {
                 case 'navbar-image-1':
@@ -140,7 +161,7 @@ class Navigation extends Component {
         let navContent = (
             <div className="navbar-wrapper">
                 <NavLogo collapseMenu={this.props.collapseMenu} windowWidth={this.props.windowWidth} onToggleNavigation={this.props.onToggleNavigation} />
-                <NavContent navigation={navigation.items} />
+                <NavContent navigation={this.navigation.items} />
             </div>
         );
         if (this.props.windowWidth < 992) {
@@ -148,7 +169,7 @@ class Navigation extends Component {
                 <OutsideClick>
                     <div className="navbar-wrapper">
                         <NavLogo collapseMenu={this.props.collapseMenu} windowWidth={this.props.windowWidth} onToggleNavigation={this.props.onToggleNavigation} />
-                        <NavContent navigation={navigation.items} />
+                        <NavContent navigation={this.navigation.items} />
                     </div>
                 </OutsideClick>
             );

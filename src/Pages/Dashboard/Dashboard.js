@@ -4,7 +4,7 @@ import {Row, Col, Card, Table} from 'react-bootstrap';
 import Aux from "../../hoc/_Aux";
 import AmChartEarnings from "../Widget/Chart/AmChartEarnings";
 import DEMO from "../../store/constant";
-import Map from "../Maps/map"
+
 
 import avatar1 from '../../assets/images/user/avatar-1.jpg';
 import avatar2 from '../../assets/images/user/avatar-2.jpg';
@@ -23,7 +23,7 @@ class Dashboard extends React.Component {
                                 <Card.Title as="h5">Location</Card.Title>
                             </Card.Header>
                             <Card.Body>
-                                <Map/>
+                            
                             </Card.Body>
                         </Card>
                     </Col>
