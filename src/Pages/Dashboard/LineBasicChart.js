@@ -89,7 +89,7 @@ class LineBasicChart extends React.Component {
         let new_data = [];
         let group = this.groupBy(data, 'id');
 
-        console.log(group)
+        
 
         for(const [key, value] of Object.entries(group)){
             
