@@ -7,48 +7,28 @@ import validator from 'validator';
 import Aux from "../../hoc/_Aux";
 import AnimatedModal from "../../App/components/AnimatedModal";
 
-class MaskWithValidation extends BaseFormControl {
-    constructor(props){
-        super(props);
-        this.inputRef = React.createRef();
-    }
 
-    getInputRef(){
-        return this.inputRef.current.inputElement;
-    }
-
-    handleChange = (e) => {
-        this.checkError();
-        if(this.props.onChange) this.props.onChange(e);
-    };
-
-    render () {
-        return (
-            <React.Fragment>
-                <MaskedInput ref={this.inputRef} {...this.filterProps()} onChange={this.handleChange}/>
-                { this.displayErrorMessage() }
-                { this.displaySuccessMessage() }
-            </React.Fragment>
-        )
-    }
-}
+import { createClient } from '../../api/clients';
 
 class FormsValidation extends React.Component {
-    state = {
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-        phone:"",
-        description: "",
-        basic: "",
-        custom: "",
-        chkBasic: false,
-        chkCustom: false,
-        checkMeSwitch: false,
-        showModal: false
-    };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: '',
+            name:'',
+            password: '',
+            modal: false,
+            submitting: false,
+            
+        }
+
+        //this.closeModal = this.closeModal.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.submit = this.submit.bind(this);
+    }
+    
+ 
 
     handleCheckboxChange = (e, value) => {
         this.setState({
@@ -56,19 +36,43 @@ class FormsValidation extends React.Component {
         })
     };
 
-    handleChange = (e) => {
+    handleChange(e) {
         this.setState({
             [e.target.name]: e.target.value
-        })
-    };
+        });
+    }
 
-    handleSubmit = (e, formData, inputs) => {
+    async submit(e) {
         e.preventDefault();
-        console.log(inputs)
-        //alert(JSON.stringify(formData, null, 2));
-        this.setState({ showModal: true });
-    };
+      
 
+        
+        this.setState({ submitting: true })
+
+
+        await createClient(this.state.name, this.state.email, this.state.password)
+        .then(result=>{
+            console.log(result)
+            let response = result.response
+           
+            if(response.status === 500) {
+                alert('Petición erronea')
+                this.setState({submitting: false , name:'', emial:'', password:''})
+            }
+            if(response.status === 200 || response.status === 201) {
+                //console.log(response.data.authorization);
+                alert(' Cliente Creado con Exito')
+                this.setState({submitting: false , name:'', emial:'', password:''})
+                this.props.history.push('/clientes/listado');
+               
+                    
+            }
+
+
+        })
+        //this.setState({submitting: false , username:'', password:''})
+    }
+   
     handleErrorSubmit = (e, formData, errorInputs) => {
         //console.log(errorInputs);
     };
@@ -78,62 +82,74 @@ class FormsValidation extends React.Component {
     };
 
     render() {
+        const { submitting, modal } = this.state;
         return (
             <Aux>
+                
                 <Row>
                     <Col>
                         <Card>
                             <Card.Header>
-                                <Card.Title as="h5">Ingreso  cliente</Card.Title>
+                                <Card.Title as="h5">Ingreso Usuario</Card.Title>
                             </Card.Header>
                             <Card.Body>
-                                <Form onSubmit={this.handleSubmit}>
+                            <ValidationForm onSubmit={this.submit}>
                                 <Form.Row>
                                         <Form.Group as={Col} md="6">
-                                        <Form.Label>Nombre</Form.Label>
-                                                <Form.Control type="text" placeholder="Nombre Cliente" />
+                                        <Form.Label htmlFor="Name">Nombre</Form.Label>
+                                        <TextInput
+                                                name="name"
+                                                id="name"
+                                                placeholder="Nombre Cliente"
+                                                minLength="1"
+                                                required
+                                                value={this.state.name}
+                                                errorMessage={{ required: "Nombre es requerido", minLength: "Minimo 1 caracteres" }}
+                                                onChange={this.handleChange}
+                                                autoComplete="off"
+                                            />
                                         </Form.Group>
                                         <Form.Group as={Col} md="6">
-                                        <Form.Label>Direccion</Form.Label>
-                                                <Form.Control type="text" placeholder="Direccion Cliente" />
+                                            <Form.Label htmlFor="Email">Email</Form.Label>
+                                            <TextInput
+                                                name="email"
+                                                id="email"
+                                                placeholder="Email"
+                                                minLength="1"
+                                                required
+                                                value={this.state.email}
+                                                errorMessage={{ required: "Usuario es requerido", minLength: "Minimo 1 caracteres" }}
+                                                onChange={this.handleChange}
+                                                autoComplete="off"
+                                            />
                                         </Form.Group>
                                         <Form.Group as={Col} md="6">
-                                        <Form.Label>NIT</Form.Label>
-                                                <Form.Control type="text" placeholder="NIT Cliente" />
-                                        </Form.Group>
-                                        <Form.Group as={Col} md="6">
-                                        <Form.Label>Nombre Contacto</Form.Label>
-                                                <Form.Control type="text" placeholder="Nombre Contacto" />
-                                        </Form.Group>
-                                </Form.Row>
-                                </Form>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <Card>
-                            <Card.Header>
-                                <Card.Title as="h5">Usuario Admin</Card.Title>
-                            </Card.Header>
-                            <Card.Body>
-                                <Form  onSubmit={this.handleSubmit}>
-                                <Form.Row>
-                                        <Form.Group as={Col} md="6">
-                                        <Form.Label>Email</Form.Label>
-                                                <Form.Control type="text" placeholder="Email" />
-                                        </Form.Group>
-                                        <Form.Group as={Col} md="6">
-                                        <Form.Label>Contraseña</Form.Label>
-                                                <Form.Control type="text" placeholder="Contraseña" />
+                                            <Form.Label htmlFor="password">Contraseña</Form.Label>
+                                            <TextInput
+                                                name="password"
+                                                id="password"
+                                                type="password"
+                                                placeholder="Password"
+                                                required
+                                                minLength="1"
+                                                errorMessage={{ required: "Password es requerido", minLength: "Minimo 1 caracteres" }}
+                                                value={this.state.password}
+                                                onChange={this.handleChange}
+                                                autoComplete="off"
+                                            />
                                         </Form.Group>
                                         
                                 </Form.Row>
-                                </Form>
-                                <Button variant="primary" type="submit">
-                                                Submit
-                                            </Button>
+{
+                                !submitting ?
+                                                <Button type="submit" className="btn btn-primary shadow-2 mb-4">Crear</Button>
+                                                :
+                                                <Button disabled>
+                                                    <span className="spinner-grow spinner-grow-sm mr-1" role="status" />Loading...
+                                    </Button>
+    }
+                                </ValidationForm>
+                               
                             </Card.Body>
                         </Card>
                     </Col>

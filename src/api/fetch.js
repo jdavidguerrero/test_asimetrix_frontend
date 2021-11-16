@@ -69,5 +69,86 @@ export const appFetch = (options) =>
         return error;
       });
 
-
+  export const appFetchCreateClient = (options) =>
+      fetch(options.url, {
+        headers: {
+          'Authorization': 'Bearer' + ' '+ localStorage.getItem('authorization'),
+          'Content-Type': 'application/json'
+        },
+        body: options.body,
+        method: options.method
+      })
+        .then(parseResponse('json'))
+        .then((response) => ({ response }))
+        .catch((error) => {
+          return error;
+        });
     
+
+        export const appFetchRemoveClient = (options) =>
+    fetch(options.url, {
+      headers: {
+        'Authorization': 'Bearer' + ' '+ localStorage.getItem('authorization'),
+        'Content-Type': 'application/json'
+      },
+      method: options.method
+    })
+      .then(parseResponse('json'))
+      .then((response) => ({ response }))
+      .catch((error) => {
+        return error;
+      });
+
+
+      export const appFetchDataInit = (options) =>
+      fetch(options.url, {
+        headers: {
+          'Authorization': 'Bearer' + ' '+ localStorage.getItem('authorization'),
+          'Content-Type': 'application/json'
+        },
+        method: options.method
+      })
+        .then(parseResponse('json'))
+        .then((response) => ({ response }))
+        .catch((error) => {
+          return error;
+        });
+      export const appFetchDataPieTemp = (options) =>
+      fetch(options.url, {
+        headers: {
+          'Authorization': 'Bearer' + ' '+ localStorage.getItem('authorization'),
+          'Content-Type': 'application/json'
+        },
+        method: options.method
+      })
+        .then(parseResponse('json'))
+        .then((response) => ({ response }))
+        .catch((error) => {
+          return error;
+        });
+      export const appFetchDataPieHum = (options) =>
+      fetch(options.url, {
+        headers: {
+          'Authorization': 'Bearer' + ' '+ localStorage.getItem('authorization'),
+          'Content-Type': 'application/json'
+        },
+        method: options.method
+      })
+        .then(parseResponse('json'))
+        .then((response) => ({ response }))
+        .catch((error) => {
+          return error;
+        });
+      export const appFetchDataLine = (options) =>
+      fetch(options.url, {
+        headers: {
+          'Authorization': 'Bearer' + ' '+ localStorage.getItem('authorization'),
+          'Content-Type': 'application/json'
+        },
+        method: options.method
+      })
+        .then(parseResponse('json'))
+        .then((response) => ({ response }))
+        .catch((error) => {
+          return error;
+        });

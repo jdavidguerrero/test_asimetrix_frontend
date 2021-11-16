@@ -26,7 +26,6 @@ class Breadcrumb extends Component {
         if(role && role.includes("admin")){
             console.log(menu_admin)
         this.navigation = menu_admin
-
         }
         else
         {
@@ -114,7 +113,7 @@ class Breadcrumb extends Component {
 
         }
 
-        document.title = title + ' | Asimtrix';
+        document.title = title + ' | Asimetrix';
 
         return (
             <Aux>

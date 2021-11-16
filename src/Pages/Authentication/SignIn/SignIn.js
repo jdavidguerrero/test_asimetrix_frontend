@@ -71,10 +71,13 @@ class SignIn extends React.Component {
                         localStorage.setItem('authorization', JSON.stringify(response.token).replace(/["']/g, ""))
                         localStorage.setItem('company_id', JSON.stringify(response.company_id));
                         localStorage.setItem('name', JSON.stringify(response.name));
-                        localStorage.setItem('role', JSON.stringify(response.role));
+                        localStorage.setItem('role', JSON.stringify(response.role).replace(/["']/g, ""));
                         localStorage.setItem('authenticated', true);
                         this.setState({submitting: false})
-                        this.props.history.push('/clientes/listado');
+                        if(response.role =="admin")
+                            this.props.history.push('/clientes/listado');
+                        else
+                            this.props.history.push('/dashboard');
                     }
                 })
                 .catch(err => {
